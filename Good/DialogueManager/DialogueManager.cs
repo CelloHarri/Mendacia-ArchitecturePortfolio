@@ -20,6 +20,11 @@ public partial class DialogueManager : Node
         // { "header", "res://Fonts/Header.ttf" },
     };
 
+    private static readonly System.Collections.Generic.Dictionary<string, string> SoundAliases = new()
+    {
+        // { "default", "res://Sounds/SFX/DefaultBlip.wav" },
+    };
+
     // State
     private DialogueSequence activeSequence;
     private int actionIndex;
@@ -46,6 +51,7 @@ public partial class DialogueManager : Node
     //Button Variables
     private int totalButtons; // Total number of buttons in the dialogue box -> Max 4
     private Array<Button> visibleButtons; // Stores the currently visible buttons in the dialogue box
+    private System.Collections.Generic.Dictionary<Button, Action> connectedChoiceHandlers = new(); // Tracks each button's current Pressed handler so it can be replaced instead of stacked
 
     private bool scheduleNextActionOnPhysicsTick;
 
@@ -89,7 +95,7 @@ public partial class DialogueManager : Node
         if (blipTimer >= 1f / voiceBlipsPerSecond)
         {
             if (characterVoiceBlip != null)
-                SoundManager.instance.PlaySFXStream(characterVoiceBlip); // Replace "default" with the appropriate character name if needed
+                SoundManager.instance.PlaySFXStream(characterVoiceBlip);
             blipTimer = 0f;
         }
 
@@ -123,6 +129,7 @@ public partial class DialogueManager : Node
         isActive = true;
         isScrolling = false;
         awaitingAdvance = false;
+        characterVoiceBlip = null; // Reset to default blip for the new sequence
         TempFlags.Clear();
         sequenceStack.Clear();
 
@@ -168,7 +175,35 @@ public partial class DialogueManager : Node
 
     public void SetChoices(string[] choices, Action<int> onChoiceSelected)
     {
-        // TODO: Implement choice handling logic here. This should display the choices to the player
+        int count = Mathf.Clamp(choices.Length, 0, 4);
+        var containerType = (ButtonContainerType)count;
+        dialogueBox.SetButtonContainerVisibility(containerType);
+
+        visibleButtons = dialogueBox.GetVisibleButtons();
+        for (int i = 0; i < visibleButtons.Count; i++)
+        {
+            visibleButtons[i].Text = choices[i];
+            int capturedIndex = i;
+            ConnectChoiceButton(visibleButtons[i], () =>
+            {
+                dialogueBox.SetButtonContainerVisibility(ButtonContainerType.Zero);
+                onChoiceSelected(capturedIndex);
+            });
+        }
+
+        // Refresh focus manager with the active container's buttons
+        var activeContainer = containerType switch
+        {
+            ButtonContainerType.Two => dialogueBox.TwoButtonContainer,
+            ButtonContainerType.Three => dialogueBox.ThreeButtonContainer,
+            ButtonContainerType.Four => dialogueBox.FourButtonContainer,
+            _ => null
+        };
+        if (activeContainer != null)
+            dialogueBox.uiFocusManager.SetFocusablesFromContainer(activeContainer);
+
+        awaitingAdvance = false;
+        isScrolling = false;
     }
 
     public string GetCurrentSpeakingCharacter() => currentSpeakingCharacter;
@@ -250,8 +285,7 @@ public partial class DialogueManager : Node
                 var option = choice.choices[i];
                 visibleButtons[i].Text = option.label;
                 int capturedIndex = i;
-                // Disconnect previous connections by replacing with a fresh button text; signals are reconnected here
-                visibleButtons[i].Pressed += () => OnChoiceSelected(choice, capturedIndex);
+                ConnectChoiceButton(visibleButtons[i], () => OnChoiceSelected(choice, capturedIndex));
             }
 
             // Refresh focus manager with the active container's buttons
@@ -293,7 +327,10 @@ public partial class DialogueManager : Node
         }
         else if (action is DialogueActionSetBlip changeBlip)
         {
-            characterVoiceBlip = changeBlip.BlipSound;
+            if (SoundAliases.TryGetValue(changeBlip.BlipKey, out string blipPath))
+                characterVoiceBlip = GD.Load<AudioStream>(blipPath);
+            else
+                GD.PrintErr($"DialogueManager: No SoundAliases entry for blip key '{changeBlip.BlipKey}'.");
             NextAction();
         }
         else if (action is DialogueActionSetSpeaker setSpeaker)
@@ -313,6 +350,16 @@ public partial class DialogueManager : Node
         isScrolling = false;
         awaitingAdvance = false;
         ProcessCurrentAction();
+    }
+
+    // Disconnects a button's previous choice handler (if any) before wiring the new one
+    private void ConnectChoiceButton(Button button, Action onPressed)
+    {
+        if (connectedChoiceHandlers.TryGetValue(button, out Action previous))
+            button.Pressed -= previous;
+
+        connectedChoiceHandlers[button] = onPressed;
+        button.Pressed += onPressed;
     }
 
     private void OnChoiceSelected(DialogueActionChoice choiceAction, int index)
