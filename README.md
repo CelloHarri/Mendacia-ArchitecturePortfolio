@@ -22,4 +22,4 @@ Landing in `Poor` describes the architecture, not necessarily my current opinion
 ## Tech Stack
 - **Godot 4** — open-source engine using a scene/node composition model. Compared to Unity, Godot provides a leaner core and expects more systems to be built from scratch rather than pulled from built-in packages.
 - **C#** over GDScript — chosen for transferability to broader software engineering roles, familiarity from a C++ background, and access to the full .NET standard library.
-  - GDScript is a custom Python-like language built just for Godot. Better for device compatablility with Mobile/Web Games, worse in code features due to lack of Standard Library
+  - GDScript is a custom Python-like language built just for Godot. Better for device compatiblility with Mobile/Web Games, worse in code features due to lack of Standard Library
