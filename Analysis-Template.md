@@ -1,6 +1,6 @@
 # Analysis Template
 
-Copy this into a folder's `Analysis.md` and fill in each section. Delete any section that genuinely doesn't apply, but default to keeping all of them — consistency across the repo matters more than brevity in any single file.
+Copy this into a folder's `Analysis.md` and fill in each section. Delete any section that genuinely doesn't apply, but default to keeping all of them
 
 ---
 
@@ -12,8 +12,8 @@ What does this code do, and where does it sit in *Mendacia's* architecture? Who 
 
 ## Status
 Pick one and briefly justify it. This matters most in `Poor/`, where "bad architecture" and "worth touching" are independent axes.
-- **Active — no planned changes**: Works, ships, not worth the refactor risk/time right now.
-- **Active — refactor planned**: Known issues, on the list to fix.
+- **Active - no planned changes**: Works, ships, not worth the refactor risk/time right now.
+- **Active - refactor planned**: Known issues, on the list to fix.
 - **Legacy / kept as-is**: Architecturally rough, but stable, low-traffic, or low-risk enough that rewriting it has negative ROI. Explain why it's fine to leave alone.
 - **Superseded**: Replaced by a better pattern elsewhere; kept in the repo only as a reference point.
 

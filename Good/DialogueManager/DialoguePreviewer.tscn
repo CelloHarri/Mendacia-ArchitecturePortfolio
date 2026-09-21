@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://boiumq3c1wdep"]
+
+[ext_resource type="Script" uid="uid://dgwckx3bmnvd1" path="res://Scripts/SceneScripts/DialogueTestScene.cs" id="1_7cun6"]
+[ext_resource type="Resource" uid="uid://ckmkb1pmny2hr" path="res://Resources/DialogueSequences/Aeolia/Aeolia_TestSequence.tres" id="2_ouo6m"]
+
+[node name="DialoguePreviewer" type="Node2D" unique_id=448413817]
+script = ExtResource("1_7cun6")
+testSequence = ExtResource("2_ouo6m")

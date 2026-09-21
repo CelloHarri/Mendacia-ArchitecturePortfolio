@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public partial class DialogueManager : Node
 {
@@ -36,6 +37,9 @@ public partial class DialogueManager : Node
     private float blipTimer = 0f;
     private AudioStream characterVoiceBlip;
     private float voiceBlipsPerSecond; // Triggered in _Process while isScrolling, keyed by characterName
+
+    // Current Speaker
+    private string currentSpeakingCharacter = "";
 
     private DialogueBox dialogueBox;
 
@@ -167,6 +171,8 @@ public partial class DialogueManager : Node
         // TODO: Implement choice handling logic here. This should display the choices to the player
     }
 
+    public string GetCurrentSpeakingCharacter() => currentSpeakingCharacter;
+
     // Private Helpers
     private void ProcessCurrentAction()
     {
@@ -290,6 +296,11 @@ public partial class DialogueManager : Node
             characterVoiceBlip = changeBlip.BlipSound;
             NextAction();
         }
+        else if (action is DialogueActionSetSpeaker setSpeaker)
+        {
+            currentSpeakingCharacter = setSpeaker.characterName;
+            NextAction();
+        }
     }
     private void NextAction() { actionIndex++; awaitingAdvance = false; ProcessCurrentAction(); }
 
@@ -367,6 +378,43 @@ public partial class DialogueManager : Node
         foreach (System.Collections.Generic.KeyValuePair<string, string> entry in FontAliases)
             raw = raw.Replace($"[font={entry.Key}]", $"[font={entry.Value}]");
 
+        raw = AutoColorCharacterNames(raw);
+        raw = ApplySpeakerFont(raw);
+
         return raw;
+    }
+
+    // Wraps the whole line in the current speaker's font when their name matches a FontAliases key
+    private string ApplySpeakerFont(string text)
+    {
+        if (string.IsNullOrEmpty(currentSpeakingCharacter) || !FontAliases.TryGetValue(currentSpeakingCharacter, out string fontPath))
+            return text;
+
+        return $"[font={fontPath}]{text}[/font]";
+    }
+
+    // Wraps bare occurrences of known character names in their alias color, skipping ones already inside a [color] tag
+    private string AutoColorCharacterNames(string text)
+    {
+        var seenNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (System.Collections.Generic.KeyValuePair<string, string> entry in ColorAliases)
+        {
+            if (!seenNames.Add(entry.Key)) // Skip duplicate casing entries (e.g. "sierra" / "Sierra")
+                continue;
+
+            string hex = entry.Value;
+            string wordPattern = $@"\b{Regex.Escape(entry.Key)}\b";
+
+            text = Regex.Replace(text, wordPattern, match =>
+            {
+                int lastOpen = text.LastIndexOf("[color=", match.Index, StringComparison.OrdinalIgnoreCase);
+                int lastClose = text.LastIndexOf("[/color]", match.Index, StringComparison.OrdinalIgnoreCase);
+                bool alreadyColored = lastOpen > lastClose;
+                return alreadyColored ? match.Value : $"[color={hex}]{match.Value}[/color]";
+            }, RegexOptions.IgnoreCase);
+        }
+
+        return text;
     }
 }
