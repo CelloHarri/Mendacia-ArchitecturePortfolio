@@ -318,7 +318,7 @@ public partial class DialogueManager : Node
         }
         else if (action is DialogueActionBark bark)
         {
-            // Complex System needs to be implemented, may not be needed for this, may be a seperate system
+            // Complex System needs to be implemented, may not be needed for this, may be a separate system
         }
         else if (action is DialogueActionChangeSpeed changeSpeed)
         {

@@ -3,11 +3,11 @@
 Godot has a handful of engine-level concepts that show up throughout *Mendacia's* code. If you come from a non-Godot background (or Unity), some architectural choices here will look unusual unless you know these first.
 
 ## Scene Tree, Node Ownership, and Resources
-Everything in Godot is either a `Node` in a tree or a Data-Oriented Object called a `Resource`.
+Mostly everything in Godot is either a `Node` in a tree or a Data-Oriented Object called a `Resource`.
 - Node: lifetime/ownership is tied to that scene tree — a node is freed when its parent is freed, and `_EnterTree`/`_Ready`/`_ExitTree` are lifecycle hooks tied to tree membership, not construction/destruction. Code frequently instantiates children at runtime (`AddChild`) rather than wiring dependencies through constructors, because constructors run before a node is in the tree and many engine APIs aren't safe to call yet.
   - Godot Provided Nodes: Area2D, Sprite2D, Node, Node2D, Control, Label and many, many more. 
 - Resource: Data-Oriented Objects that contain data. They do not have `_EnterTree`/`_Ready`/`_ExitTree`/`_Process`/`_PhysicsProcess` to run anything at runtime. They are designed to be data objects for nodes to call upon at runtime. `Resource` subclasses can be saved as `.tres` files and edited directly in the Godot editor's inspector, without code. 
-  - Godot Provided Resources: CollisionShape2D, Texture2D, Script, Shader, TileSet and many more.
+  - Godot Provided Resources: Shape2D (the data a `CollisionShape2D` node uses), Texture2D, Script, Shader, TileSet and many more.
 
 ## PackedScene / Scene Instancing
  - A `.tscn` is a file type that contains the data needed to construct a scene tree. It contains Nodes and Resources.
@@ -25,11 +25,10 @@ Both fire once when a node enters the scene tree, but at different points, and t
 - This is why `DialogueManager` assigns `instance` in `_EnterTree` rather than `_Ready`: other autoloads/nodes may call into it as soon as it exists, and `_EnterTree` guarantees `instance` is set as early as possible, before anything else's `_Ready` runs. Code that instead needs to safely reference children (e.g. `dialogueBox`) waits for `_Ready`.
 
 ## Autoloads (Singletons)
-Autoloads are scripts/scenes registered in Project Settings that Godot instantiates once and keeps alive in the scene tree for the entire game, accessible globally without an explicit reference. `DialogueManager`, `SoundManager`, and `GameManager` are all used this way — instantiated once, then reached via a static `instance` field set in the singleton's `_EnterTree` or `_Ready`.
+Autoloads are scripts/scenes registered in Project Settings that Godot instantiates once and keeps alive in the scene tree for the entire game, accessible globally without an explicit reference. `DialogueManager`, `SoundManager`, and `GameManager`, etc. are all used this way — instantiated once, then reached via a static `instance` field set in the singleton's `_EnterTree` or `_Ready`.
 - This is Godot's *sanctioned* way to get global state/services, unlike C# where a bare static singleton is usually a smell. It's baked into the engine's project structure.
 - The tradeoff is the same as any singleton: hidden dependencies, harder testing, and load-order coupling (an autoload can't safely assume another autoload has finished `_Ready` yet).
-  - I generally avoid singletons talking to singletons to avoid this issue
-    - General exception is any singleton can talk to `GameManager`, as that is guaranteed to be the first object instantiated in the scene tree
+  - It is best to avoid singleton coupling to avoid this problem, but you will see a decent amount of it in this repository.
 
 ## Signals vs. C# Events
 - Godot's native pub/sub mechanism is signals (`[Signal]`, `EmitSignal`, connected via `+=` on a `SignalName`), which are the idiomatic way to decouple nodes without direct references and are visible/connectable from the editor.

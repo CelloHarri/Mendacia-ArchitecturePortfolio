@@ -75,10 +75,6 @@ public partial class AttackPattern : Resource
         };
     }
 
-    // The on-screen rotation (degrees, clockwise) that corresponds to a given facing. Matches
-    // RotateOffset's rotation sense, so rotating a bracket sprite by this amount visually agrees
-    // with where its repositioned offset ends up.
-
     // Determines which cardinal direction `offset` (target cell - origin cell) mostly points in.
     // When offset lies exactly on a diagonal (|X| == |Y|, including the zero offset), the choice
     // between the two equally-valid axes is ambiguous, so `flipped` picks between them

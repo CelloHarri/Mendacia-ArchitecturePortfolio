@@ -106,7 +106,7 @@ public partial class InputManager : Node
         RebindAction("jump", CreateKey(Key.Space), CreateKey(Key.Z));
         RebindAction("slow_gem", CreateKey(Key.Shift), CreateKey(Key.X));
         RebindAction("run", CreateKey(Key.Shift), CreateKey(Key.X));
-        RebindAction("combat_redo", CreateKey(Key.R)); //Temparary moves, in game this will change
+        RebindAction("combat_redo", CreateKey(Key.R)); //Temporary moves, in game this will change
         RebindAction("combat_confirm", CreateKey(Key.Z), CreateKey(Key.Space), CreateKey(Key.Enter));
         RebindAction("interact", CreateKey(Key.Z), CreateKey(Key.Space), CreateKey(Key.Enter));
         RebindAction("flip_attack_pattern", CreateKey(Key.F));
@@ -143,7 +143,7 @@ public partial class InputManager : Node
         RebindAction("jump", CreateKey(Key.Space));
         RebindAction("slow_gem", CreateKey(Key.Shift));
         RebindAction("run", CreateKey(Key.Shift));
-        RebindAction("combat_redo", CreateKey(Key.R)); //Temparary moves, in game this will change
+        RebindAction("combat_redo", CreateKey(Key.R)); //Temporary moves, in game this will change
         RebindAction("combat_confirm", CreateKey(Key.Space), CreateKey(Key.Enter), CreateMouseButton(MouseButton.Left));
         RebindAction("interact", CreateKey(Key.E));
         RebindAction("flip_attack_pattern", CreateKey(Key.F));
@@ -180,7 +180,7 @@ public partial class InputManager : Node
         RebindAction("jump", CreateJoyButton(JoyButton.A));
         RebindAction("slow_gem", CreateJoyButton(JoyButton.B));
         RebindAction("run", CreateJoyButton(JoyButton.B));
-        RebindAction("combat_redo", CreateJoyButton(JoyButton.LeftShoulder)); //Temparary moves, in game this will change
+        RebindAction("combat_redo", CreateJoyButton(JoyButton.LeftShoulder)); //Temporary moves, in game this will change
         RebindAction("combat_confirm", CreateJoyButton(JoyButton.A));
         RebindAction("interact", CreateJoyButton(JoyButton.A));
         RebindAction("flip_attack_pattern", CreateJoyButton(JoyButton.Y));

@@ -145,7 +145,6 @@ public partial class CombatTileMapLayer : TileMapLayer
     // Returns the ordered list of cells from startCell to endCell, or an empty list if no path exists.
     // Enemy-occupied cells are temporarily marked solid so the path cannot route through them.
     // Ally-occupied cells remain passable (can walk through but not stop on).
-    // Returns the ordered list of cells from startCell to endCell.
     // movingFaction determines which occupied cells are treated as impassable:
     // a Player-faction mover is blocked by enemyOccupiedCells; an Enemy-faction
     // mover is blocked by allyOccupiedCells. Units can pass through same-faction cells.
@@ -219,9 +218,8 @@ public partial class CombatTileMapLayer : TileMapLayer
         return new List<Vector2I>(idPath);
     }
 
-    // Flood-fills outward from startCell, returning every cell reachable within moveRange movement cost.
-    // movingFaction determines which occupied cells block movement vs allow pass-through.
     // Returns all cells reachable from origin within maxRange.
+    // faction determines which occupied cells block movement vs allow pass-through.
     // useMovementCost=true: tile-weighted BFS for movement (hostile cells block, friendlies are pass-through).
     // useMovementCost=false: plain distance flood-fill for attack/act/item/spell targeting.
     // When pattern is provided (non-movement only), only cells valid for that shape are returned.

@@ -94,8 +94,8 @@ public partial class BattleManager : Node
 
             if (character.animator != null)
             {
-                character.animator.Offset -= character.animator.combatOffset; // Apply combat offset to the animator for tile-combat positioning
-                character.animator.shadowSprite.Offset += character.animator.combatOffset; // Apply combat offset to the shadow sprite for tile-combat positioning
+                character.animator.Offset -= character.animator.combatOffset; // Remove the combat offset from the animator, restoring its world-movement position
+                character.animator.shadowSprite.Offset -= character.animator.combatOffset; // Remove the combat offset from the shadow sprite, restoring its world-movement position
             }
 
             if (character.characterStats.characterName == "Sierra")
