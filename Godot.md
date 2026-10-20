@@ -5,9 +5,9 @@ Godot has a handful of engine-level concepts that show up throughout *Mendacia's
 ## Scene Tree, Node Ownership, and Resources
 Mostly everything in Godot is either a `Node` in a tree or a Data-Oriented Object called a `Resource`.
 - Node: lifetime/ownership is tied to that scene tree — a node is freed when its parent is freed, and `_EnterTree`/`_Ready`/`_ExitTree` are lifecycle hooks tied to tree membership, not construction/destruction. Code frequently instantiates children at runtime (`AddChild`) rather than wiring dependencies through constructors, because constructors run before a node is in the tree and many engine APIs aren't safe to call yet.
-  - Godot Provided Nodes: Area2D, Sprite2D, Node, Node2D, Control, Label and many, many more. 
+  - Godot Provided Nodes: CollisionShape2D, Area2D, Sprite2D, Node, Node2D, Control, Label and many, many more. 
 - Resource: Data-Oriented Objects that contain data. They do not have `_EnterTree`/`_Ready`/`_ExitTree`/`_Process`/`_PhysicsProcess` to run anything at runtime. They are designed to be data objects for nodes to call upon at runtime. `Resource` subclasses can be saved as `.tres` files and edited directly in the Godot editor's inspector, without code. 
-  - Godot Provided Resources: Shape2D (the data a `CollisionShape2D` node uses), Texture2D, Script, Shader, TileSet and many more.
+  - Godot Provided Resources: Shape2D (the data a `CollisionShape2D` or `Area2D` node uses), Texture2D, Script, Shader, TileSet and many more.
 
 ## PackedScene / Scene Instancing
  - A `.tscn` is a file type that contains the data needed to construct a scene tree. It contains Nodes and Resources.
