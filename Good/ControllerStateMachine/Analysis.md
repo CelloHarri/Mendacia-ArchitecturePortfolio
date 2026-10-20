@@ -52,7 +52,7 @@ Each state is a node, and the controller finds its state children in `_Ready`.
  - The AI profile has many weights, and the scoring contains magic numbers (such as dividing by 10 or assuming 6 as the maximum area-of-effect targets).
 
 ## Why It Lands Here
- - As a single-person project, the `BattleManager` god object is understandable to me, so depending on it everywhere is not the biggest issue.
+ - Defining this as a seperate system from `BattleManager` I consider this Good, `BattleManager` is listed as `Poor` in the Poor Analysis.
  - The state machine itself is well-organized and easy to extend, and I designed it deliberately rather than by accident.
  - The player and enemy controllers share the same base class and the same pattern, so a new kind of combat controller is mostly a matter of adding states.
 

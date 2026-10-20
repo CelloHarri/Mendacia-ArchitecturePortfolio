@@ -28,7 +28,7 @@ Both fire once when a node enters the scene tree, but at different points, and t
 Autoloads are scripts/scenes registered in Project Settings that Godot instantiates once and keeps alive in the scene tree for the entire game, accessible globally without an explicit reference. `DialogueManager`, `SoundManager`, and `GameManager`, etc. are all used this way — instantiated once, then reached via a static `instance` field set in the singleton's `_EnterTree` or `_Ready`.
 - This is Godot's *sanctioned* way to get global state/services, unlike C# where a bare static singleton is usually a smell. It's baked into the engine's project structure.
 - The tradeoff is the same as any singleton: hidden dependencies, harder testing, and load-order coupling (an autoload can't safely assume another autoload has finished `_Ready` yet).
-  - It is best to avoid singleton coupling to avoid this problem, but you will see a decent amount of it in this repository.
+  - It is best to avoid singleton coupling to avoid this problem, but you will see a decent amount of it in this repository. (I am learning from this problem for sure)
 
 ## Signals vs. C# Events
 - Godot's native pub/sub mechanism is signals (`[Signal]`, `EmitSignal`, connected via `+=` on a `SignalName`), which are the idiomatic way to decouple nodes without direct references and are visible/connectable from the editor.

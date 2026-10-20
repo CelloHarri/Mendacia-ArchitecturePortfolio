@@ -14,7 +14,7 @@ What does this code do, and where does it sit in *Mendacia's* architecture? Who 
 Pick one and briefly justify it. This matters most in `Poor/`, where "bad architecture" and "worth touching" are independent axes.
 - **Active - no planned changes**: Works, ships, not worth the refactor risk/time right now.
 - **Active - planned feature work**: Works and ships, but new functionality (not a refactor, since a refactor keeps the same behavior) is planned.
-- **Active - refactor planned**: Known issues, on the list to fix.
+- **Active - refactor planned**: Refactor is planned based on issues described
 - **Legacy / kept as-is**: Architecturally rough, but stable, low-traffic, or low-risk enough that rewriting it has negative ROI. Explain why it's fine to leave alone.
 - **Superseded**: Replaced by a better pattern elsewhere; kept in the repo only as a reference point.
 

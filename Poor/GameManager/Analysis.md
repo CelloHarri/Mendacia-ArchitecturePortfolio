@@ -11,9 +11,11 @@ Intended to jump-start the game's systems and to hold global state: game version
 It is unfinished. The save and load functions are placeholders.
 
 ## Status
-**Legacy / kept as-is**
- - It works and is low-risk, so it stays for now.
- - A refactor is possible later by moving each piece of state into the system that owns it, as described below.
+**Active - refactor planned**
+ - It works, but it is dangerous and unscalable.
+ - The refactor options: 
+    - Just move state into their own singletons and handle those startup processes within those singletons
+    - Above and moving singleton functionality out of singleton objects.
 
 ## Strengths
  - Creates a default config on first run.
@@ -27,7 +29,7 @@ It is unfinished. The save and load functions are placeholders.
 
 ## Why It Lands Here
  - It lands in `Poor` because its real purpose is very small (game version and whether pausing is allowed), and the rest of what it holds mostly forces coupling.
- - Over time I realized the systems I made singletons should handle their own startup.
+ - Over time I realized the systems I made should handle their own startup.
 
 ## What I'd Do Differently
  - Keep only what is truly global in `GameManager`: the game version and whether pausing is allowed.

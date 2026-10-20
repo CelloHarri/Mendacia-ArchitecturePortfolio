@@ -17,10 +17,9 @@ Runs the tactics battle. It:
 Most combat code calls it directly, especially to reach `CombatTileMapLayer`.
 
 ## Status
-**Legacy / kept as-is**
- - It will likely stay the same. It works, and the combat system is finalized for now.
- - It is horribly designed and does far too much, but rewriting working, finalized code isn't worth the time.
- - If combat needs to be functionally worked on again, it would be worth refactoring this code first.
+**Active - refactor planned**
+ - Although it works, it is likely to cause much more stress and struggle later on with debugging and added features.
+ - It is horribly designed and does far too much.
 
 ## Strengths
  - Fast units get extra turns.
@@ -34,12 +33,13 @@ Most combat code calls it directly, especially to reach `CombatTileMapLayer`.
  - So many things call on it, especially for `CombatTileMapLayer`.
 
 ## Why It Lands Here
- - It works and combat is finalized, but the architecture is poor because of all the additional functionality it implements itself.
- - It is a true god object, and it would be hard to work with if it needs to be edited again.
+ - It works, but the architecture is poor because of all the additional functionality it implements itself.
+ - It is a true god object, and it is hard to work with whenever it needs to be edited, which is why a refactor is planned.
 
 ## What I'd Do Differently
  - Make the turn queue its own class that `BattleManager` calls.
  - Move the combat UI into a separate class that `BattleManager` calls.
+ - (In coordinance with GameManager Analysis) The Refactored/Restructured code would contain the GameState {World, Combat} within BattleManager (although BattleManager would likely be called something else by that point).
 
 ## Tags
 `god-object`, `singleton`, `turn-queue`, `tight-coupling`, `polymorphism`

@@ -1,6 +1,8 @@
 # Mendacia: A Design and Architecture Retrospective
 A code-level case study examining the software architecture decisions behind *Mendacia*, a turn-based tactics game built in Godot 4 / C#, with an honest look at what works, what doesn't, and what I'd do differently.
 
+**Demo Videos Coming Soon**
+
 ## Disclaimers:
  - This is not all of the game's source code and other associated files.
  - *Mendacia* is in early development.
@@ -15,7 +17,7 @@ This is a technical analysis of *Mendacia's* many systems. I am using this to de
  - I recommend reading `Godot.md` first to understand some Godot-specific concepts that the code doesn't explicitly demonstrate.
 
 ## A Note on `Poor`
-Landing in `Poor` describes the architecture, not necessarily my current opinion of the code. Some of these scripts still ship in *Mendacia* as-is because they work, are low-risk, and aren't worth the refactor time right now (or possibly ever). Each `Poor` entry's `Analysis.md` includes a **Status** field calling out whether it's still active, planned for rework, or intentionally left alone — see the template for details.
+Landing in `Poor` describes the architecture, not necessarily my current opinion of the code. These scripts still ship in *Mendacia* because they work, but their architecture is likely to cause problems as the game grows, so the current `Poor` entries are planned for refactoring. Each `Poor` entry's `Analysis.md` includes a **Status** field calling out whether it's still active, planned for rework, or intentionally left alone (a script that is rough but not worth the refactor time would be marked that way) — see the template for details.
 
 ## Game Premise
 *Mendacia* has a turn-based tactics combat system mixed with a bullet-hell enemy attack system deriving from Undertale. A majority of *Mendacia's* systems come from this combat system, so those will be some of the systems analyzed in the Repository.
