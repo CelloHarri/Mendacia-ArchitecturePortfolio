@@ -17,16 +17,21 @@ This is a technical analysis of *Mendacia's* many systems. I am using this to de
  - I recommend reading `Godot.md` first to understand some Godot-specific concepts that the code doesn't explicitly demonstrate.
 
 ## A Note on `Poor`
-Landing in `Poor` describes the architecture, not necessarily my current opinion of the code. These scripts still ship in *Mendacia* because they work, but their architecture is likely to cause problems as the game grows, so the current `Poor` entries are planned for refactoring. Each `Poor` entry's `Analysis.md` includes a **Status** field calling out whether it's still active, planned for rework, or intentionally left alone (a script that is rough but not worth the refactor time would be marked that way) — see the template for details.
+Landing in `Poor` describes the architecture, not necessarily my current opinion of the code. These scripts still ship in *Mendacia* because they work, but their architecture is likely to cause problems as the game grows, so `Poor` can be planned for refactoring. Each `Poor` entry's `Analysis.md` includes a **Status** field calling out whether it's still active, planned for rework, or intentionally left alone (a script that is rough but not worth the refactor time would be marked that way) — see the template for details.
 
 ## Game Premise
 *Mendacia* has a turn-based tactics combat system mixed with a bullet-hell enemy attack system deriving from Undertale. A majority of *Mendacia's* systems come from this combat system, so those will be most of the systems analyzed in the Repository.
+
+## Demo Videos
+ - Some systems will have GIFs showcasing the functionality of the code, Some systems (like InputManager) will not as they do not function visually.
 
 ## Tech Stack
 - **Godot 4** — open-source engine using a scene/node composition model. Compared to Unity, Godot provides a leaner core and expects more systems to be built from scratch rather than pulled from built-in packages.
 - **C#** over GDScript — chosen for transferability to broader software engineering roles, familiarity from a C++ background, and access to the full .NET standard library.
   - GDScript is a custom Python-like language built just for Godot. It is better for device compatibility with mobile/web games, but worse in code features due to the lack of a standard library.
 
-## Game Repo Access
-  - If You are a recruiter looking at the Repo and would like to see the whole project (so far), feel free to send an email to harrisonjulius@celloharri.com 
-  - I will be avoiding spam or anyone who does not look official to avoid any stolen art assets or non-public code (although the art is not very good [trying to get better], I am a programmer after all)
+## Full Repository Access
+
+This portfolio contains selected systems from *Mendacia*. The complete project, including the full codebase and game assets, is kept in a private repository.
+
+If you're a recruiter or engineer and would like access, email **contact@celloharri.com** with your name, company, and role, and I'll respond with a read-only invite.
