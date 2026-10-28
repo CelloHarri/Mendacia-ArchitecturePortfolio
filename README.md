@@ -34,4 +34,4 @@ Landing in `Poor` describes the architecture, not necessarily my current opinion
 
 This portfolio contains selected systems from *Mendacia*. The complete project, including the full codebase and game assets, is kept in a private repository.
 
-If you're a recruiter or engineer and would like access, email **contact@celloharri.com** with your name, company, and role, and I'll respond with a read-only invite.
+If you're a recruiter or engineer and would like access, email **contact@celloharri.com** or **juliuszharrison@gmail.com** with your name, company, and role, and I'll respond with a read-only invite.
